@@ -18,7 +18,7 @@ resource "newrelic_nrql_alert_condition" "this" {
   close_violations_on_expiration = var.close_violations_on_expiration
   slide_by                       = var.slide_by
 
-  baseline_direction = null
+  baseline_direction = var.baseline_direction
 
   nrql {
     query = var.query
@@ -38,6 +38,23 @@ resource "newrelic_nrql_alert_condition" "this" {
       threshold             = var.warning != null ? var.warning.threshold : null
       threshold_duration    = var.warning != null ? var.warning.threshold_duration : null
       threshold_occurrences = var.warning != null ? var.warning.threshold_occurrences : null
+    }
+  }
+}
+
+resource "newrelic_entity_tags" "this" {
+  guid = newrelic_nrql_alert_condition.this.entity_guid
+
+  tag {
+    key    = "Origin"
+    values = ["Terraform"]
+  }
+
+  dynamic "tag" {
+    for_each = var.tags
+    content {
+      key    = tag.key
+      values = tag.value
     }
   }
 }

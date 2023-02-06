@@ -1,2 +1,105 @@
-# terraform-nr-nrql-alert-condition
-A Terraform module for New Relic with an opinionated NRQL alert condition.
+# Terraform New Relic NRQL Alert Condition Module
+
+This module handles opinion New Relic NRQL Alert Condition creation and configuration.
+
+## Compatability
+
+This module is meant for use with Terraform 1.0+ and tested using Terraform 1.3+.
+If you find incompatibilities using Terraform `>=1.0`, please open an issue.
+
+## Usage
+
+There are multiple examples included in the [examples](https://github.com/usfoods/terraform-nr-nrql-alert-condition/tree/master/examples) folder but simple usage is as follows:
+
+```hcl
+provider "newrelic" {
+  account_id = var.account_id
+}
+
+resource "newrelic_alert_policy" "main" {
+  name                = "Basic Policy"
+  incident_preference = "PER_CONDITION_AND_TARGET"
+}
+
+// This is the bare minimum configuration required
+module "main" {
+  source = ""
+
+  account_id = var.account_id
+  policy_id  = newrelic_alert_policy.main.id
+  name       = "Basic Critical NRQL Alert Condition"
+  enabled    = var.enabled
+
+  query = "SELECT average(duration) FROM Transaction"
+
+  critical = {
+    threshold          = 1000
+    threshold_duration = 180
+  }
+}
+```
+
+Then perform the following commands on the root folder:
+
+- `terraform init` to get the plugins
+- `terraform plan` to see the infrastructure plan
+- `terraform apply` to apply the infrastructure build
+- `terraform destroy` to destroy the built infrastructure
+
+<!-- BEGIN_TF_DOCS -->
+## Resources
+
+| Name | Type |
+|------|------|
+| [newrelic_entity_tags.this](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/entity_tags) | resource |
+| [newrelic_nrql_alert_condition.this](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/nrql_alert_condition) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_account_id"></a> [account\_id](#input\_account\_id) | The New Relic account ID of the account you wish to create the condition | `string` | n/a | yes |
+| <a name="input_aggregation_delay"></a> [aggregation\_delay](#input\_aggregation\_delay) | How long we wait for data that belongs in each aggregation window | `number` | `120` | no |
+| <a name="input_aggregation_method"></a> [aggregation\_method](#input\_aggregation\_method) | Determines when we consider an aggregation window to be complete so that we can evaluate the signal for incidents | `string` | `"event_flow"` | no |
+| <a name="input_aggregation_timer"></a> [aggregation\_timer](#input\_aggregation\_timer) | How long we wait after each data point arrives to make sure we've processed the whole batch | `number` | `null` | no |
+| <a name="input_aggregation_window"></a> [aggregation\_window](#input\_aggregation\_window) | The duration of the time window used to evaluate the NRQL query, in seconds | `number` | `60` | no |
+| <a name="input_baseline_direction"></a> [baseline\_direction](#input\_baseline\_direction) | n/a | `string` | `null` | no |
+| <a name="input_close_violations_on_expiration"></a> [close\_violations\_on\_expiration](#input\_close\_violations\_on\_expiration) | Whether to close all open incidents when the signal expires | `bool` | `false` | no |
+| <a name="input_critical"></a> [critical](#input\_critical) | The critical violation threshold values | <pre>object({<br>    operator              = optional(string, "ABOVE")<br>    threshold             = number<br>    threshold_duration    = number<br>    threshold_occurrences = optional(string, "ALL")<br>  })</pre> | n/a | yes |
+| <a name="input_description"></a> [description](#input\_description) | The description of the NRQL alert condition | `string` | `""` | no |
+| <a name="input_enabled"></a> [enabled](#input\_enabled) | value | `bool` | `false` | no |
+| <a name="input_expiration_duration"></a> [expiration\_duration](#input\_expiration\_duration) | The amount of time (in seconds) to wait before considering the signal expired | `number` | `900` | no |
+| <a name="input_fill_option"></a> [fill\_option](#input\_fill\_option) | Which strategy to use when filling gaps in the signal | `string` | `"none"` | no |
+| <a name="input_fill_value"></a> [fill\_value](#input\_fill\_value) | This value will be used for filling gaps in the signal | `number` | `null` | no |
+| <a name="input_name"></a> [name](#input\_name) | The title of the condition | `string` | n/a | yes |
+| <a name="input_open_violation_on_expiration"></a> [open\_violation\_on\_expiration](#input\_open\_violation\_on\_expiration) | Whether to create a new incident to capture that the signal expired | `bool` | `false` | no |
+| <a name="input_policy_id"></a> [policy\_id](#input\_policy\_id) | The ID of the policy where this condition should be used | `string` | n/a | yes |
+| <a name="input_query"></a> [query](#input\_query) | The NRQL query to execute for the condition | `string` | n/a | yes |
+| <a name="input_runbook_url"></a> [runbook\_url](#input\_runbook\_url) | Runbook URL to display in notifications | `string` | `""` | no |
+| <a name="input_slide_by"></a> [slide\_by](#input\_slide\_by) | Gathers data in overlapping time windows to smooth the chart line, making it easier to spot trends | `number` | `null` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | The tags that will be associated with the monitor | `map(list(string))` | `{}` | no |
+| <a name="input_type"></a> [type](#input\_type) | n/a | `string` | `"static"` | no |
+| <a name="input_violation_time_limit_seconds"></a> [violation\_time\_limit\_seconds](#input\_violation\_time\_limit\_seconds) | Sets a time limit, in seconds, that will automatically force-close a long-lasting incident after the time limit you select | `number` | `86400` | no |
+| <a name="input_warning"></a> [warning](#input\_warning) | The warning violation threshold values | <pre>object({<br>    operator              = optional(string, "ABOVE")<br>    threshold             = number<br>    threshold_duration    = number<br>    threshold_occurrences = optional(string, "ALL")<br>  })</pre> | `null` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_critical_operator"></a> [critical\_operator](#output\_critical\_operator) | n/a |
+| <a name="output_critical_threshold"></a> [critical\_threshold](#output\_critical\_threshold) | n/a |
+| <a name="output_critical_threshold_duration"></a> [critical\_threshold\_duration](#output\_critical\_threshold\_duration) | n/a |
+| <a name="output_critical_threshold_occurrences"></a> [critical\_threshold\_occurrences](#output\_critical\_threshold\_occurrences) | n/a |
+| <a name="output_enabled"></a> [enabled](#output\_enabled) | n/a |
+| <a name="output_entity_guid"></a> [entity\_guid](#output\_entity\_guid) | The unique entity identifier of the NRQL Condition in New Relic |
+| <a name="output_id"></a> [id](#output\_id) | The ID of the NRQL alert condition |
+| <a name="output_name"></a> [name](#output\_name) | The title of the condition |
+| <a name="output_nrql_query"></a> [nrql\_query](#output\_nrql\_query) | n/a |
+| <a name="output_policy_id"></a> [policy\_id](#output\_policy\_id) | n/a |
+| <a name="output_tags"></a> [tags](#output\_tags) | n/a |
+| <a name="output_type"></a> [type](#output\_type) | n/a |
+| <a name="output_warning_operator"></a> [warning\_operator](#output\_warning\_operator) | n/a |
+| <a name="output_warning_threshold"></a> [warning\_threshold](#output\_warning\_threshold) | n/a |
+| <a name="output_warning_threshold_duration"></a> [warning\_threshold\_duration](#output\_warning\_threshold\_duration) | n/a |
+| <a name="output_warning_threshold_occurrences"></a> [warning\_threshold\_occurrences](#output\_warning\_threshold\_occurrences) | n/a |
+<!-- END_TF_DOCS -->

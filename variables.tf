@@ -132,3 +132,9 @@ variable "warning" {
     threshold_occurrences = optional(string, "ALL")
   })
 }
+
+variable "tags" {
+  default     = {}
+  description = "The tags that will be associated with the monitor"
+  type        = map(list(string))
+}
