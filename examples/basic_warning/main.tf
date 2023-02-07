@@ -17,7 +17,6 @@ resource "newrelic_alert_policy" "main" {
   incident_preference = "PER_CONDITION_AND_TARGET"
 }
 
-// This is the bare minimum configuration required
 module "main" {
   source = "../.."
 

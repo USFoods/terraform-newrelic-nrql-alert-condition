@@ -1,8 +1,8 @@
-# Basic Warning
+# Custom Tags
 
 Configuration in this directory creates an alert policy with a single associated NRQL alert condition.
 
-The NRQL alert condition defines both a critical violation block and a warning violation block.
+The NRQL alert condition defines a critical violation block and includes several custom tags.
 
 ## Usage
 

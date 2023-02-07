@@ -38,6 +38,66 @@ output "enabled" {
   value       = newrelic_nrql_alert_condition.this.enabled
 }
 
+output "violation_time_limit_seconds" {
+  description = "The time limit, in seconds, that will automatically force-close a long-lasting incident"
+  value       = newrelic_nrql_alert_condition.this.violation_time_limit_seconds
+}
+
+output "fill_option" {
+  description = "Which strategy to use when filling gaps in the signal"
+  value       = newrelic_nrql_alert_condition.this.fill_option
+}
+
+output "fill_value" {
+  description = "This value to use for filling gaps in the signal"
+  value       = newrelic_nrql_alert_condition.this.fill_value
+}
+
+output "aggregation_window" {
+  description = "The duration of the time window used to evaluate the NRQL query, in seconds"
+  value       = newrelic_nrql_alert_condition.this.aggregation_window
+}
+
+output "aggregation_method" {
+  description = "When we consider an aggregation window to be complete so that we can evaluate the signal for incidents"
+  value       = newrelic_nrql_alert_condition.this.aggregation_method
+}
+
+output "aggregation_delay" {
+  description = "How long we wait for data that belongs in each aggregation window"
+  value       = newrelic_nrql_alert_condition.this.aggregation_delay
+}
+
+output "aggregation_timer" {
+  description = "How long we wait after each data point arrives to make sure we've processed the whole batch"
+  value       = newrelic_nrql_alert_condition.this.aggregation_timer
+}
+
+output "expiration_duration" {
+  description = "The amount of time (in seconds) to wait before considering the signal expired"
+  value       = newrelic_nrql_alert_condition.this.expiration_duration
+}
+
+output "open_violation_on_expiration" {
+  description = "Whether to create a new incident to capture that the signal expired"
+  value       = newrelic_nrql_alert_condition.this.open_violation_on_expiration
+}
+
+output "close_violations_on_expiration" {
+  description = "Whether to close all open incidents when the signal expires"
+  value       = newrelic_nrql_alert_condition.this.close_violations_on_expiration
+}
+
+output "slide_by" {
+  description = "Gathers data in overlapping time windows to smooth the chart line, making it easier to spot trends"
+  value       = newrelic_nrql_alert_condition.this.slide_by
+}
+
+output "baseline_direction" {
+  description = "The baseline direction of a baseline NRQL alert condition"
+  value       = newrelic_nrql_alert_condition.this.baseline_direction
+}
+
 output "nrql_query" {
   description = "The NRQL query executed for the condition"
   value       = try(newrelic_nrql_alert_condition.this.nrql[0].query, "")

@@ -28,27 +28,33 @@ func TestBasicCriticalConfiguration(t *testing.T) {
 	// Run "terraform init" and "terraform apply". Fail the test if there are any errors.
 	terraform.InitAndApply(t, terraformOptions)
 
-	// Get map from policy output
-	policyOutput := terraform.OutputMap(t, terraformOptions, "policy")
-	moduleOutput := terraform.OutputMap(t, terraformOptions, "module")
+	// Get all output
+	outputAll := terraform.OutputAll(t, terraformOptions)
 
-	assert.Equal(t, "Basic Critical Policy", policyOutput["name"])
-	assert.Equal(t, policyOutput["id"], moduleOutput["policy_id"])
-	assert.Equal(t, "Basic Critical NRQL Alert Condition", moduleOutput["name"])
+	// We actuall want a map of strings, not interfaces
+	output := map[string]string{}
+	// Would be nice if this output was built into Terratest
+	for k, v := range outputAll {
+		output[k] = fmt.Sprintf("%v", v)
+	}
 
-	assert.Equal(t, "above", strings.ToLower(moduleOutput["critical_operator"]))
-	assert.Equal(t, "1000", moduleOutput["critical_threshold"])
-	assert.Equal(t, "180", moduleOutput["critical_threshold_duration"])
-	assert.Equal(t, "all", strings.ToLower(moduleOutput["critical_threshold_occurrences"]))
+	assert.Equal(t, "Basic Critical Policy", output["policy_name"])
+	assert.Equal(t, output["policy_id"], output["module_policy_id"])
+	assert.Equal(t, "Basic Critical NRQL Alert Condition", output["name"])
 
-	assert.Equal(t, "", strings.ToLower(moduleOutput["warning_operator"]))
-	assert.Equal(t, "", moduleOutput["warning_threshold"])
-	assert.Equal(t, "", moduleOutput["warning_threshold_duration"])
-	assert.Equal(t, "", strings.ToLower(moduleOutput["warning_threshold_occurrences"]))
+	assert.Equal(t, "above", strings.ToLower(output["critical_operator"]))
+	assert.Equal(t, "1000", output["critical_threshold"])
+	assert.Equal(t, "180", output["critical_threshold_duration"])
+	assert.Equal(t, "all", strings.ToLower(output["critical_threshold_occurrences"]))
+
+	assert.Equal(t, "", strings.ToLower(output["warning_operator"]))
+	assert.Equal(t, "", output["warning_threshold"])
+	assert.Equal(t, "", output["warning_threshold_duration"])
+	assert.Equal(t, "", strings.ToLower(output["warning_threshold_occurrences"]))
 
 	expected_tags := map[string]string{
 		"Origin": "Terraform",
 	}
 
-	assert.Equal(t, moduleOutput["tags"], fmt.Sprint(expected_tags))
+	assert.Equal(t, output["tags"], fmt.Sprint(expected_tags))
 }

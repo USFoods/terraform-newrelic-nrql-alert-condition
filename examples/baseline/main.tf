@@ -13,28 +13,26 @@ provider "newrelic" {
 }
 
 resource "newrelic_alert_policy" "main" {
-  name                = "Custom Tags Policy"
+  name                = "Baseline Policy"
   incident_preference = "PER_CONDITION_AND_TARGET"
 }
 
+# This is the bare minimum configuration required
 module "main" {
   source = "../.."
 
   account_id = var.account_id
   policy_id  = newrelic_alert_policy.main.id
-  name       = "Custom Tags NRQL Alert Condition"
+  name       = "Baseline NRQL Alert Condition"
+  type       = "baseline"
   enabled    = var.enabled
+
+  baseline_direction = "upper_and_lower"
 
   query = "SELECT average(duration) FROM Transaction"
 
   critical = {
-    threshold          = 1000
+    threshold          = 5
     threshold_duration = 180
-  }
-
-  tags = {
-    "env"      = ["nonprod"],
-    "app.id"   = ["1234"]
-    "app.code" = ["testapp"]
   }
 }
