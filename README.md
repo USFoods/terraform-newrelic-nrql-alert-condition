@@ -23,7 +23,7 @@ resource "newrelic_alert_policy" "main" {
 
 // This is the bare minimum configuration required
 module "main" {
-  source = ""
+  source = "usfoods/nrql-alert-condition/newrelic"
 
   account_id = var.account_id
   policy_id  = newrelic_alert_policy.main.id
