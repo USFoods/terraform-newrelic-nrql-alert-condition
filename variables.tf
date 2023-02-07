@@ -14,8 +14,9 @@ variable "name" {
 }
 
 variable "type" {
-  default = "static"
-  type    = string
+  default     = "static"
+  description = "The type of the condition"
+  type        = string
 }
 
 variable "description" {
@@ -32,7 +33,7 @@ variable "runbook_url" {
 
 variable "enabled" {
   default     = false
-  description = "value"
+  description = "Whether to enable the alert condition"
   type        = bool
 }
 
@@ -98,13 +99,14 @@ variable "close_violations_on_expiration" {
 
 variable "slide_by" {
   default     = null
-  description = " Gathers data in overlapping time windows to smooth the chart line, making it easier to spot trends"
+  description = "Gathers data in overlapping time windows to smooth the chart line, making it easier to spot trends"
   type        = number
 }
 
 variable "baseline_direction" {
-  default = null
-  type    = string
+  default     = null
+  description = "The baseline direction of a baseline NRQL alert condition"
+  type        = string
 }
 
 variable "query" {
@@ -135,6 +137,6 @@ variable "warning" {
 
 variable "tags" {
   default     = {}
-  description = "The tags that will be associated with the monitor"
+  description = "The tags associated with the alert condition"
   type        = map(list(string))
 }

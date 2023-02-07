@@ -63,11 +63,11 @@ Then perform the following commands on the root folder:
 | <a name="input_aggregation_method"></a> [aggregation\_method](#input\_aggregation\_method) | Determines when we consider an aggregation window to be complete so that we can evaluate the signal for incidents | `string` | `"event_flow"` | no |
 | <a name="input_aggregation_timer"></a> [aggregation\_timer](#input\_aggregation\_timer) | How long we wait after each data point arrives to make sure we've processed the whole batch | `number` | `null` | no |
 | <a name="input_aggregation_window"></a> [aggregation\_window](#input\_aggregation\_window) | The duration of the time window used to evaluate the NRQL query, in seconds | `number` | `60` | no |
-| <a name="input_baseline_direction"></a> [baseline\_direction](#input\_baseline\_direction) | n/a | `string` | `null` | no |
+| <a name="input_baseline_direction"></a> [baseline\_direction](#input\_baseline\_direction) | The baseline direction of a baseline NRQL alert condition | `string` | `null` | no |
 | <a name="input_close_violations_on_expiration"></a> [close\_violations\_on\_expiration](#input\_close\_violations\_on\_expiration) | Whether to close all open incidents when the signal expires | `bool` | `false` | no |
 | <a name="input_critical"></a> [critical](#input\_critical) | The critical violation threshold values | <pre>object({<br>    operator              = optional(string, "ABOVE")<br>    threshold             = number<br>    threshold_duration    = number<br>    threshold_occurrences = optional(string, "ALL")<br>  })</pre> | n/a | yes |
 | <a name="input_description"></a> [description](#input\_description) | The description of the NRQL alert condition | `string` | `""` | no |
-| <a name="input_enabled"></a> [enabled](#input\_enabled) | value | `bool` | `false` | no |
+| <a name="input_enabled"></a> [enabled](#input\_enabled) | Whether to enable the alert condition | `bool` | `false` | no |
 | <a name="input_expiration_duration"></a> [expiration\_duration](#input\_expiration\_duration) | The amount of time (in seconds) to wait before considering the signal expired | `number` | `900` | no |
 | <a name="input_fill_option"></a> [fill\_option](#input\_fill\_option) | Which strategy to use when filling gaps in the signal | `string` | `"none"` | no |
 | <a name="input_fill_value"></a> [fill\_value](#input\_fill\_value) | This value will be used for filling gaps in the signal | `number` | `null` | no |
@@ -77,8 +77,8 @@ Then perform the following commands on the root folder:
 | <a name="input_query"></a> [query](#input\_query) | The NRQL query to execute for the condition | `string` | n/a | yes |
 | <a name="input_runbook_url"></a> [runbook\_url](#input\_runbook\_url) | Runbook URL to display in notifications | `string` | `""` | no |
 | <a name="input_slide_by"></a> [slide\_by](#input\_slide\_by) | Gathers data in overlapping time windows to smooth the chart line, making it easier to spot trends | `number` | `null` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | The tags that will be associated with the monitor | `map(list(string))` | `{}` | no |
-| <a name="input_type"></a> [type](#input\_type) | n/a | `string` | `"static"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | The tags associated with the alert condition | `map(list(string))` | `{}` | no |
+| <a name="input_type"></a> [type](#input\_type) | The type of the condition | `string` | `"static"` | no |
 | <a name="input_violation_time_limit_seconds"></a> [violation\_time\_limit\_seconds](#input\_violation\_time\_limit\_seconds) | Sets a time limit, in seconds, that will automatically force-close a long-lasting incident after the time limit you select | `number` | `86400` | no |
 | <a name="input_warning"></a> [warning](#input\_warning) | The warning violation threshold values | <pre>object({<br>    operator              = optional(string, "ABOVE")<br>    threshold             = number<br>    threshold_duration    = number<br>    threshold_occurrences = optional(string, "ALL")<br>  })</pre> | `null` | no |
 
@@ -86,20 +86,22 @@ Then perform the following commands on the root folder:
 
 | Name | Description |
 |------|-------------|
-| <a name="output_critical_operator"></a> [critical\_operator](#output\_critical\_operator) | n/a |
-| <a name="output_critical_threshold"></a> [critical\_threshold](#output\_critical\_threshold) | n/a |
-| <a name="output_critical_threshold_duration"></a> [critical\_threshold\_duration](#output\_critical\_threshold\_duration) | n/a |
-| <a name="output_critical_threshold_occurrences"></a> [critical\_threshold\_occurrences](#output\_critical\_threshold\_occurrences) | n/a |
-| <a name="output_enabled"></a> [enabled](#output\_enabled) | n/a |
+| <a name="output_critical_operator"></a> [critical\_operator](#output\_critical\_operator) | The operator used when evaluating the threshold |
+| <a name="output_critical_threshold"></a> [critical\_threshold](#output\_critical\_threshold) | The value which will trigger an incident |
+| <a name="output_critical_threshold_duration"></a> [critical\_threshold\_duration](#output\_critical\_threshold\_duration) | The duration, in seconds, that the threshold must violate in order to create an incident |
+| <a name="output_critical_threshold_occurrences"></a> [critical\_threshold\_occurrences](#output\_critical\_threshold\_occurrences) | The criteria for how many data points must be in violation for the specified threshold duration |
+| <a name="output_description"></a> [description](#output\_description) | The description of the NRQL alert condition |
+| <a name="output_enabled"></a> [enabled](#output\_enabled) | Whether the alert condition is enabled |
 | <a name="output_entity_guid"></a> [entity\_guid](#output\_entity\_guid) | The unique entity identifier of the NRQL Condition in New Relic |
 | <a name="output_id"></a> [id](#output\_id) | The ID of the NRQL alert condition |
 | <a name="output_name"></a> [name](#output\_name) | The title of the condition |
-| <a name="output_nrql_query"></a> [nrql\_query](#output\_nrql\_query) | n/a |
-| <a name="output_policy_id"></a> [policy\_id](#output\_policy\_id) | n/a |
-| <a name="output_tags"></a> [tags](#output\_tags) | n/a |
-| <a name="output_type"></a> [type](#output\_type) | n/a |
-| <a name="output_warning_operator"></a> [warning\_operator](#output\_warning\_operator) | n/a |
-| <a name="output_warning_threshold"></a> [warning\_threshold](#output\_warning\_threshold) | n/a |
-| <a name="output_warning_threshold_duration"></a> [warning\_threshold\_duration](#output\_warning\_threshold\_duration) | n/a |
-| <a name="output_warning_threshold_occurrences"></a> [warning\_threshold\_occurrences](#output\_warning\_threshold\_occurrences) | n/a |
+| <a name="output_nrql_query"></a> [nrql\_query](#output\_nrql\_query) | The NRQL query executed for the condition |
+| <a name="output_policy_id"></a> [policy\_id](#output\_policy\_id) | The ID of the policy where this condition is used |
+| <a name="output_runbook_url"></a> [runbook\_url](#output\_runbook\_url) | Runbook URL to display in notifications |
+| <a name="output_tags"></a> [tags](#output\_tags) | The tags associated with the alert condition |
+| <a name="output_type"></a> [type](#output\_type) | The type of the condition |
+| <a name="output_warning_operator"></a> [warning\_operator](#output\_warning\_operator) | The operator used when evaluating the threshold |
+| <a name="output_warning_threshold"></a> [warning\_threshold](#output\_warning\_threshold) | The value which will trigger an incident |
+| <a name="output_warning_threshold_duration"></a> [warning\_threshold\_duration](#output\_warning\_threshold\_duration) | The duration, in seconds, that the threshold must violate in order to create an incident |
+| <a name="output_warning_threshold_occurrences"></a> [warning\_threshold\_occurrences](#output\_warning\_threshold\_occurrences) | The criteria for how many data points must be in violation for the specified threshold duration |
 <!-- END_TF_DOCS -->
