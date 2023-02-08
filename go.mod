@@ -1,4 +1,4 @@
-module github.com/usfoods/terraform-nr-nrql-alert-condition
+module github.com/usfoods/terraform-newrelic-nrql-alert-condition
 
 go 1.19
 
