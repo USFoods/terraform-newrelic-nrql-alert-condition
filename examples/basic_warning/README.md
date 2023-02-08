@@ -47,7 +47,7 @@ Note that this example may create resources which can cost money. Run `terraform
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_account_id"></a> [account\_id](#input\_account\_id) | The New Relic account ID of the account you wish to create the condition | `string` | n/a | yes |
-| <a name="input_enabled"></a> [enabled](#input\_enabled) | value | `bool` | `false` | no |
+| <a name="input_enabled"></a> [enabled](#input\_enabled) | Whether to enable the alert condition | `bool` | `false` | no |
 
 ## Outputs
 
