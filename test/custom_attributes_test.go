@@ -28,44 +28,80 @@ func TestCustomAttributesConfiguration(t *testing.T) {
 	// Run "terraform init" and "terraform apply". Fail the test if there are any errors.
 	terraform.InitAndApply(t, terraformOptions)
 
-	// Get all output
-	outputAll := terraform.OutputAll(t, terraformOptions)
+	// Get module output for policy name, policy id, name, critical, warning, type, and tags
+	outputPolicyName := terraform.Output(t, terraformOptions, "policy_name")
+	outputPolicyID := terraform.Output(t, terraformOptions, "policy_id")
 
-	// We actuall want a map of strings, not interfaces
-	output := map[string]string{}
-	// Would be nice if this output was built into Terratest
-	for k, v := range outputAll {
-		output[k] = fmt.Sprintf("%v", v)
-	}
+	outputName := terraform.Output(t, terraformOptions, "name")
+	outputConditionPolicyID := terraform.Output(t, terraformOptions, "condition_policy_id")
 
-	assert.Equal(t, "Custom Attributes Policy", output["policy_name"])
-	assert.Equal(t, output["policy_id"], output["module_policy_id"])
-	assert.Equal(t, "Custom Attributes NRQL Alert Condition", output["name"])
+	outputCriticalOperator := terraform.Output(t, terraformOptions, "critical_operator")
+	outputCriticalThreshold := terraform.Output(t, terraformOptions, "critical_threshold")
+	outputCriticalThresholdDuration := terraform.Output(t, terraformOptions, "critical_threshold_duration")
+	outputCriticalThresholdOccurrences := terraform.Output(t, terraformOptions, "critical_threshold_occurrences")
 
-	assert.Equal(t, "above", strings.ToLower(output["critical_operator"]))
-	assert.Equal(t, "1000", output["critical_threshold"])
-	assert.Equal(t, "1200", output["critical_threshold_duration"])
-	assert.Equal(t, "all", strings.ToLower(output["critical_threshold_occurrences"]))
+	outputWarningOperator := terraform.Output(t, terraformOptions, "warning_operator")
+	outputWarningThreshold := terraform.Output(t, terraformOptions, "warning_threshold")
+	outputWarningThresholdDuration := terraform.Output(t, terraformOptions, "warning_threshold_duration")
+	outputWarningThresholdOccurrences := terraform.Output(t, terraformOptions, "warning_threshold_occurrences")
 
-	assert.Equal(t, "above", strings.ToLower(output["warning_operator"]))
-	assert.Equal(t, "500", output["warning_threshold"])
-	assert.Equal(t, "1800", output["warning_threshold_duration"])
-	assert.Equal(t, "all", strings.ToLower(output["warning_threshold_occurrences"]))
+	outputType := terraform.Output(t, terraformOptions, "type")
+	outputTags := terraform.Output(t, terraformOptions, "tags")
 
-	assert.Equal(t, "Alerts on average duration for transactions", output["description"])
-	assert.Equal(t, "https://docs.newrelic.com/docs/apm/transactions/intro-transactions/transactions-new-relic-apm/", output["runbook_url"])
-	assert.Equal(t, "300", output["aggregation_window"])
-	assert.Equal(t, "300", output["aggregation_delay"])
-	assert.Equal(t, "600", output["expiration_duration"])
-	assert.Equal(t, "true", output["open_violation_on_expiration"])
-	assert.Equal(t, "true", output["close_violations_on_expiration"])
+	// Get module output for description, runbook_url, aggregation_window, aggregation_delay, expiration_duration, open_violation_on_expiration, and close_violations_on_expiration
+	outputDescription := terraform.Output(t, terraformOptions, "description")
+	outputRunbookURL := terraform.Output(t, terraformOptions, "runbook_url")
+	outputAggregationWindow := terraform.Output(t, terraformOptions, "aggregation_window")
+	outputAggregationDelay := terraform.Output(t, terraformOptions, "aggregation_delay")
+	outputExpirationDuration := terraform.Output(t, terraformOptions, "expiration_duration")
+	outputOpenViolationOnExpiration := terraform.Output(t, terraformOptions, "open_violation_on_expiration")
+	outputCloseViolationsOnExpiration := terraform.Output(t, terraformOptions, "close_violations_on_expiration")
 
-	expected_tags := map[string]string{
+	// Assert policy name is Custom Attributes Policy
+	assert.Equal(t, "Custom Attributes Policy", outputPolicyName)
+	// Assert policy id matches condition policy id
+	assert.Equal(t, outputPolicyID, outputConditionPolicyID)
+	// Assert name is Custom Attributes NRQL Alert Condition
+	assert.Equal(t, "Custom Attributes NRQL Alert Condition", outputName)
+	// Assert critical operator is above
+	assert.Equal(t, "above", strings.ToLower(outputCriticalOperator))
+	// Assert critical threshold is 1000
+	assert.Equal(t, "1000", outputCriticalThreshold)
+	// Assert critical threshold duration is 1200
+	assert.Equal(t, "1200", outputCriticalThresholdDuration)
+	// Assert critical threshold occurrences is all
+	assert.Equal(t, "all", strings.ToLower(outputCriticalThresholdOccurrences))
+	// Assert warning operator is above
+	assert.Equal(t, "above", strings.ToLower(outputWarningOperator))
+	// Assert warning threshold is 500
+	assert.Equal(t, "500", outputWarningThreshold)
+	// Assert warning threshold duration is 1800
+	assert.Equal(t, "1800", outputWarningThresholdDuration)
+	// Assert warning threshold occurrences is all
+	assert.Equal(t, "all", strings.ToLower(outputWarningThresholdOccurrences))
+	// Assert type is static
+	assert.Equal(t, "static", strings.ToLower(outputType))
+	// Assert description is Alerts on average duration for transactions
+	assert.Equal(t, "Alerts on average duration for transactions", outputDescription)
+	// Assert runbook url is https://docs.newrelic.com/docs/apm/transactions/intro-transactions/transactions-new-relic-apm/
+	assert.Equal(t, "https://docs.newrelic.com/docs/apm/transactions/intro-transactions/transactions-new-relic-apm/", outputRunbookURL)
+	// Assert aggregation window is 300
+	assert.Equal(t, "300", outputAggregationWindow)
+	// Assert aggregation delay is 300
+	assert.Equal(t, "300", outputAggregationDelay)
+	// Assert expiration duration is 600
+	assert.Equal(t, "600", outputExpirationDuration)
+	// Assert open violation on expiration is true
+	assert.Equal(t, "true", strings.ToLower(outputOpenViolationOnExpiration))
+	// Assert close violations on expiration is true
+	assert.Equal(t, "true", strings.ToLower(outputCloseViolationsOnExpiration))
+	// Define expected tags
+	expectedTags := map[string]string{
 		"app.code": "testapp",
 		"app.id":   "1234",
 		"env":      "nonprod",
 		"Origin":   "Terraform",
 	}
-
-	assert.Equal(t, output["tags"], fmt.Sprint(expected_tags))
+	// Assert module tags match expected tags
+	assert.Equal(t, fmt.Sprint(expectedTags), outputTags)
 }

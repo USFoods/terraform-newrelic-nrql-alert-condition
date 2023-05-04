@@ -1,24 +1,24 @@
 resource "newrelic_nrql_alert_condition" "this" {
   account_id                     = var.account_id
-  policy_id                      = var.policy_id
-  type                           = var.type
-  name                           = var.name
+  baseline_direction             = var.baseline_direction
   description                    = var.description
+  policy_id                      = var.policy_id
+  name                           = var.name
+  type                           = var.type
   runbook_url                    = var.runbook_url
   enabled                        = var.enabled
   violation_time_limit_seconds   = var.violation_time_limit_seconds
   fill_option                    = var.fill_option
   fill_value                     = var.fill_value
   aggregation_window             = var.aggregation_window
-  aggregation_method             = var.aggregation_method
-  aggregation_delay              = var.aggregation_delay
-  aggregation_timer              = var.aggregation_timer
   expiration_duration            = var.expiration_duration
   open_violation_on_expiration   = var.open_violation_on_expiration
   close_violations_on_expiration = var.close_violations_on_expiration
+  aggregation_method             = var.aggregation_method
+  aggregation_delay              = var.aggregation_delay
+  aggregation_timer              = var.aggregation_timer
+  evaluation_delay               = var.evaluation_delay
   slide_by                       = var.slide_by
-
-  baseline_direction = var.baseline_direction
 
   nrql {
     query = var.query

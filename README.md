@@ -52,13 +52,13 @@ Then perform the following commands on the root folder:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_newrelic"></a> [newrelic](#requirement\_newrelic) | >= 3.13 |
+| <a name="requirement_newrelic"></a> [newrelic](#requirement\_newrelic) | >= 3.14 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_newrelic"></a> [newrelic](#provider\_newrelic) | >= 3.13 |
+| <a name="provider_newrelic"></a> [newrelic](#provider\_newrelic) | >= 3.14 |
 
 ## Modules
 
@@ -85,6 +85,7 @@ No modules.
 | <a name="input_critical"></a> [critical](#input\_critical) | The critical violation threshold values | <pre>object({<br>    operator              = optional(string, "ABOVE")<br>    threshold             = number<br>    threshold_duration    = number<br>    threshold_occurrences = optional(string, "ALL")<br>  })</pre> | n/a | yes |
 | <a name="input_description"></a> [description](#input\_description) | The description of the NRQL alert condition | `string` | `""` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Whether to enable the alert condition | `bool` | `false` | no |
+| <a name="input_evaluation_delay"></a> [evaluation\_delay](#input\_evaluation\_delay) | How long we wait until the signal starts evaluating | `number` | `null` | no |
 | <a name="input_expiration_duration"></a> [expiration\_duration](#input\_expiration\_duration) | The amount of time (in seconds) to wait before considering the signal expired | `number` | `900` | no |
 | <a name="input_fill_option"></a> [fill\_option](#input\_fill\_option) | Which strategy to use when filling gaps in the signal | `string` | `"none"` | no |
 | <a name="input_fill_value"></a> [fill\_value](#input\_fill\_value) | This value will be used for filling gaps in the signal | `number` | `null` | no |
@@ -103,6 +104,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_account_id"></a> [account\_id](#output\_account\_id) | The New Relic account ID of the account you wish to create the condition |
 | <a name="output_aggregation_delay"></a> [aggregation\_delay](#output\_aggregation\_delay) | How long we wait for data that belongs in each aggregation window |
 | <a name="output_aggregation_method"></a> [aggregation\_method](#output\_aggregation\_method) | When we consider an aggregation window to be complete so that we can evaluate the signal for incidents |
 | <a name="output_aggregation_timer"></a> [aggregation\_timer](#output\_aggregation\_timer) | How long we wait after each data point arrives to make sure we've processed the whole batch |
@@ -116,6 +118,7 @@ No modules.
 | <a name="output_description"></a> [description](#output\_description) | The description of the NRQL alert condition |
 | <a name="output_enabled"></a> [enabled](#output\_enabled) | Whether the alert condition is enabled |
 | <a name="output_entity_guid"></a> [entity\_guid](#output\_entity\_guid) | The unique entity identifier of the NRQL Condition in New Relic |
+| <a name="output_evaluation_delay"></a> [evaluation\_delay](#output\_evaluation\_delay) | How long we wait until the signal starts evaluating |
 | <a name="output_expiration_duration"></a> [expiration\_duration](#output\_expiration\_duration) | The amount of time (in seconds) to wait before considering the signal expired |
 | <a name="output_fill_option"></a> [fill\_option](#output\_fill\_option) | Which strategy to use when filling gaps in the signal |
 | <a name="output_fill_value"></a> [fill\_value](#output\_fill\_value) | This value to use for filling gaps in the signal |
