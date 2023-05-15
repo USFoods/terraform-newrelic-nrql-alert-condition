@@ -1,0 +1,53 @@
+name: "Testing"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Cache TFLint plugins
+        uses: actions/cache@v3
+        with:
+          path: ~/.tflint.d/plugins
+          key: tflint-${{ hashFiles('.tflint.hcl') }} 
+      - name: Cache Terraform plugins
+        uses: actions/cache@v3
+        with:
+          path: "**/.terraform"
+          key: terraform-${{ hashFiles('**/versions.tf') }}
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v3
+      - name: Run lint
+        run: make lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Cache Terraform plugins
+        uses: actions/cache@v3
+        with:
+          path: '**/.terraform'
+          key: terraform-${{ hashFiles('**/versions.tf') }}
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: 'go.mod'
+      - name: Run test
+        run: make test
+        env:
+          NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
+          NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}

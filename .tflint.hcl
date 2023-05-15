@@ -1,0 +1,41 @@
+config {
+    module = true
+}
+
+plugin "newrelic" {
+    enabled = true
+    version = "0.3.2"
+    source = "github.com/usfoods/tflint-ruleset-newrelic"
+
+    signing_key = <<-KEY
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+mQINBGRZWhABEADeMVvuZqcEs8Ol8gSEtq6Ql7Dm++ujEuHsJo8akDRz6AFuBbgm
+N/eTgJXPsBrtLw3b8TbLqRm5VoYjKfchpR38tpLnDODDWYaf5pbLo5zJVxeuZTY1
+zvmvhLxsiYsq4Qo+r1FApUonrZRuWferM0nfx60a7B9q4NI62Ms85vOAwbwWh0s2
+vT8eyazAFPgSUxZ3Ckbb2MfZ2S87QiLB7RDlbtImYPNyZNQ6Dp2aDghBrjDhhqbW
+PjCBLce7UXyt3INYHhw3BZOhXEetW8GvUgGKFi1Up3WQ56KdICaKmE/BgyVe7DxZ
+varj3Jw6er67rfB9zjbjekbKIrUMWDN5zhvJO2kjjqMrK4Y1CgeyxGoLDiVHIxhf
+O83oRiQa5OAzogO63tmCseve73TmO7JCZAnoc6dAtU6j7UPB5MD35wrtSQUMPLKs
+pfHVh/FAYOmwybgXctmOjXsjn0J/nHG/mDx/aN8wc9Q0opAwM1wrc5LmFa2fwzvl
+o9Azb0b2EwyvcnVOA/VMe13bM6uykOFJmsDAd+O1cqHJIwd8qkIIaNrdU1kjg56I
+qCkQXDv4gCiA/NySQoPCreCAYu6N5UvsTeulHMK16UK9GLMAx+B/NQ3V94eWIyiy
+iL5KIYthcn7Yc7uFQjCfoSIX0IP9nhvszKA3CrDphF+qcaDXHeZ5lbx2iQARAQAB
+tEpEZXZpbiBNaWxsZXIgKFVzZWQgZm9yIHNpZ25pbmcgR2l0aHViIHJlbGVhc2Vz
+KSA8ZGV2aW4ubWlsbGVyQHVzZm9vZHMuY29tPokCUQQTAQgAOxYhBMvekmY6lVya
+46JoSRBOPPeF+/tUBQJkWVoQAhsDBQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
+AAoJEBBOPPeF+/tUCPgQAKaV6w3/0JQHAoIlEw9T+oZqFTw9dmqFdoEDneCR4gl3
+x8tlgpf8DPX92t+UuCyj32xFW87EKytSP/agsJVYqT7TiuXu4q5KOU9cZq2aXEfr
+dYCahA4diqEL1TT0aEIJF3vrXuy84y/38wRoaa5WIY32ROYqM496PAhTjUfDH6jB
+qeIGQxTpucyXraQ6sYtgoPw8hUi14D2mGLSiIpz4nubUohg5S4Taeyoty4zxSDXv
+Hjl0HnqIXBIwu2YCPzuJ86ASkKkrvLXlnrqCaNoe751kLnkOMe3wr5WobFMhHho6
+ImW5V6ojtQQW8KKKah1vzKCzxRQxzuE0qLaBzmRZ2vzWVv1sTgRsiFGLuUz9u6ob
+ewSayh86Zi6PLCQSJuV6LE7klBMmj7LYf3UmEXPryE0zxO+3dfrAkLdn4ogiH5/d
+OXJtR97+HZqQblkb6+UsGwyPLh1h4Gp62KHAOzTfeaIzrtvYE/U87Vms3dWbNsy8
+X4xPr/Ue7Np4UHjFoyLCW8j3GoDGXl5FhyLg7cepcqe+lHTivqVZK/uJj5wYdvF7
+Wp4EywN9ThTEijrvgl0hT9Qyk8XGq92ivFf1IbN4+2ZJnlV9NIPN+WNUkUR/5L2S
+zfu+Zqp8AYiXLEukOd4pTiD6j4qS49GZ3A0nToLn9NdO++9oBuKvjTgkbTrGPIWz
+=AWCn
+-----END PGP PUBLIC KEY BLOCK-----
+    KEY
+}
