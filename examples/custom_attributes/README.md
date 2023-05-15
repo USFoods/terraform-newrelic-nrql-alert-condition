@@ -22,13 +22,13 @@ Note that this example may create resources which can cost money. Run `terraform
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.3 |
-| <a name="requirement_newrelic"></a> [newrelic](#requirement\_newrelic) | ~>3.14 |
+| <a name="requirement_newrelic"></a> [newrelic](#requirement\_newrelic) | >=3.14 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_newrelic"></a> [newrelic](#provider\_newrelic) | ~>3.14 |
+| <a name="provider_newrelic"></a> [newrelic](#provider\_newrelic) | >=3.14 |
 
 ## Modules
 

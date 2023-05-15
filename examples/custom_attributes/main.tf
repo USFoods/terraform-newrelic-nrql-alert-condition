@@ -1,13 +1,3 @@
-terraform {
-  required_version = ">=1.3"
-  required_providers {
-    newrelic = {
-      source  = "newrelic/newrelic"
-      version = "~>3.14"
-    }
-  }
-}
-
 provider "newrelic" {
   account_id = var.account_id
 }
