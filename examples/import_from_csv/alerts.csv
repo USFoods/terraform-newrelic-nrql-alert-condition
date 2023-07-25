@@ -1,0 +1,4 @@
+name,enabled,query,critical_threshold,env,app_id,app_code
+"Average CPU Utilization",true,"SELECT average(cpuPercent) FROM SystemSample FACET hostname",90,"nonprod","12345","testapp"
+"Average Memory Utilization",true,"SELECT average(memoryUsedPercent) FROM SystemSample FACET hostame",80,"nonprod","12345","testapp"
+"Average Disk Utilization",true,"SELECT average(diskUsedPercent) FROM SystemSample FACET hostname",60,"nonprod","12345","testapp"
