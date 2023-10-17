@@ -19,7 +19,7 @@ done
 
 # If there are any failed tests, report them and exit with a non-zero status
 if [ ${#FAILED_TESTS[@]} -ne 0 ]; then
-    echo "Tests failed in the following directories:"
+    echo -e "\n\033[31mTests failed in the following directories:\033[0m"
     for TEST in "${FAILED_TESTS[@]}"; do
         echo "- $TEST"
     done
