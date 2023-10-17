@@ -45,5 +45,6 @@ jobs:
       - name: Run test
         run: make test
         env:
+          TF_VAR_account_id: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
           NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
           NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
