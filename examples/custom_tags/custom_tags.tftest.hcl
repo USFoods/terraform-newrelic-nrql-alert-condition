@@ -2,7 +2,7 @@ run "verify_policy" {
   command = apply
 
   assert {
-    condition     = output.policy_name == "Imported from CSV Example"
+    condition     = output.policy_name == "Custom Tags Policy"
     error_message = "policy name did not match expected"
   }
 

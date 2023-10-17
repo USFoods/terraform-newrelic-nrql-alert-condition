@@ -21,7 +21,8 @@ done
 if [ ${#FAILED_TESTS[@]} -ne 0 ]; then
     echo -e "\n\033[31mTests failed in the following directories:\033[0m"
     for TEST in "${FAILED_TESTS[@]}"; do
-        echo "- $TEST"
+        echo -e "\033[31m- $TEST\033[0m"
     done
+    echo ""  # Added space beneath the directory list
     exit 1
 fi
