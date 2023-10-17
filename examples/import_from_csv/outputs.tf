@@ -17,9 +17,11 @@ output "monitors" {
   description = "The alert conditions created"
   value = {
     for module in module.main : module.name => {
-      enabled            = tostring(module.enabled)
-      nrql_query         = module.nrql_query
-      critical_threshold = tostring(module.critical_threshold)
+      enabled                     = module.enabled
+      nrql_query                  = module.nrql_query
+      critical_threshold          = module.critical_threshold
+      critical_threshold_duration = module.critical_threshold_duration
+      tags                        = module.tags
     }
   }
 }

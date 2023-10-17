@@ -24,7 +24,8 @@ module "main" {
 
   tags = {
     "env"      = ["nonprod"],
-    "app.id"   = ["1234"]
-    "app.code" = ["testapp"]
+    "app.id"   = ["1234"],
+    "app.code" = ["testapp"],
+    "support"  = ["tier1", "tier2"]
   }
 }
