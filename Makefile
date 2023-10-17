@@ -4,13 +4,9 @@
 #############################
 PROJECT_NAME := $(shell basename $(shell pwd))
 
-GO           ?= go
-VENDOR_CMD   ?= ${GO} mod tidy
-TF_LINTER	 ?= tflint
-TEST_RUNNER  ?= gotestsum
-GO_PKGS      ?= $(shell $(GO) list ./...)
-
+TF_LINTER	 	 ?= tflint
 TFINIT_SCRIPT    ?= ./scripts/tfinit.sh
+TFTEST_SCRIPT	 ?= ./scripts/tftest.sh
 
 # Go file to track tool deps with go modules
 TOOL_DIR     ?= tools
@@ -39,23 +35,15 @@ lint: init
 	@echo "=== $(PROJECT_NAME) === [ lint             ]: linting Terraform configuration..."
 	@$(TF_LINTER) --recursive
 
-test: init deps
+test: init
 	@echo "=== $(PROJECT_NAME) === [ test             ]: running integration tests..."
-	@TF_ACC=1 $(TEST_RUNNER) -f testname --rerun-fails=1 --packages "$(GO_PKGS)" -- -v -parallel 8
-
-deps: tools
-	@echo "=== $(PROJECT_NAME) === [ deps             ]: downloading development dependencies..."
-	@$(VENDOR_CMD)
-
-tools:
-	@echo "=== $(PROJECT_NAME) === [ tools            ]: Installing tools required by the project..."
-	@cd $(TOOL_DIR) && $(VENDOR_CMD)
-	@cd $(TOOL_DIR) && $(GO) install $(GOTOOLS)
+	@$(TFTEST_SCRIPT)
 
 exec: 
 	@echo "=== $(PROJECT_NAME) === [ exec             ]: making scripts executable..."
 	@chmod +x $(TFINIT_SCRIPT)
+	@chmod +x $(TFTEST_SCRIPT)
 
-ready: fmt lint clean
+ready: fmt lint test clean
 
-.PHONY : clean lint init deps exec fmt ready tools test
+.PHONY : clean lint init exec fmt ready test
