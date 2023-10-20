@@ -24,25 +24,36 @@ run "verify_condition_configuration" {
 
   assert {
     condition     = alltrue([for alert in local.alerts : contains(keys(output.monitors), alert.name)])
-    error_message = "condition count did not match expected"
+    error_message = "condition keys did not match expected"
   }
 
   assert {
-    condition = alltrue([
-      for alert in local.alerts :
-      contains(keys(output.monitors), alert.name) &&
-      output.monitors[alert.name]["enabled"] == false &&
-      output.monitors[alert.name]["nrql_query"] == alert.query &&
-      output.monitors[alert.name]["critical_threshold"] == tonumber(alert.critical_threshold) &&
-      output.monitors[alert.name]["critical_threshold_duration"] == 180 &&
-      output.monitors[alert.name]["tags"] == {
-        "Origin" : "Terraform",
-        "env" : alert.env,
-        "app.id" : alert.app_id,
-        "app.code" : alert.app_code,
-      }
+    condition     = alltrue([for alert in local.alerts : output.monitors[alert.name]["enabled"] == false])
+    error_message = "condition enabled did not match expected"
+  }
 
-    ])
-    error_message = "one or more conditions did not match expected"
+  assert {
+    condition     = alltrue([for alert in local.alerts : output.monitors[alert.name]["nrql_query"] == alert.query])
+    error_message = "condition nrql query did not match expected"
+  }
+
+  assert {
+    condition     = alltrue([for alert in local.alerts : output.monitors[alert.name]["critical_threshold"] == tonumber(alert.critical_threshold)])
+    error_message = "condition critical threshold did not match expected"
+  }
+
+  assert {
+    condition     = alltrue([for alert in local.alerts : output.monitors[alert.name]["critical_threshold_duration"] == 180])
+    error_message = "condition critical threshold duration did not match expected"
+  }
+
+  assert {
+    condition = alltrue([for alert in local.alerts : output.monitors[alert.name]["tags"] == {
+      "Origin" : "Terraform",
+      "env" : alert.env,
+      "app.id" : alert.app_id,
+      "app.code" : alert.app_code,
+    }])
+    error_message = "condition tags did not match expected"
   }
 }
