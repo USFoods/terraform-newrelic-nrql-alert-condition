@@ -8,12 +8,6 @@ TF_LINTER	 	 ?= tflint
 TFINIT_SCRIPT    ?= ./scripts/tfinit.sh
 TFTEST_SCRIPT	 ?= ./scripts/tftest.sh
 
-# Go file to track tool deps with go modules
-TOOL_DIR     ?= tools
-TOOL_CONFIG  ?= $(TOOL_DIR)/tools.go
-
-GOTOOLS ?= $(shell cd $(TOOL_DIR) && go list -f '{{ .Imports }}' -tags tools |tr -d '[]')
-
 #############################
 # Targets
 #############################
